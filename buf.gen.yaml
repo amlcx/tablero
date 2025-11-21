@@ -1,0 +1,23 @@
+version: v2
+plugins:
+  - local: protoc-gen-go
+    out: backend/gen
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: backend/gen
+    opt:
+      - paths=source_relative
+      - simple
+  # Frontend
+  - local: protoc-gen-es
+    out: frontend/src/lib/api/gen
+    include_imports: true
+    opt: target=ts
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/amlcx/tablero/backend/gen
+  disable:
+    - file_option: go_package
+      module: buf.build/bufbuild/protovalidate

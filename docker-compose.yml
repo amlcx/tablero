@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: testdb
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=db
+    volumes:
+      - pgdata:/var/lib/postgres/18/docker
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "test", "db"]
+      timeout: 5s
+      retries: 5
+  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      - TABLERO_SERVER_HOSTNAME=${TABLERO_SERVER_HOSTNAME}
+      - TABLERO_SERVER_PORT=${TABLERO_SERVER_PORT}
+      - TABLERO_JWKS_URL=${frontend:3001/api/auth/jwks}
+    networks:
+      - tablero_network
+    ports:
+      - "1323:1323"
+    
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    environment:
+      - POSTGRES_HOSTNAME=${POSTGRES_HOSTNAME}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - ORIGIN=${ORIGIN}
+    networks:
+      - tablero_network
+    ports:
+      - "3001:3001"
+    volumes:
+      - avatars:/app/static/avatars
+
+networks:
+  tablero_network:
+
+volumes:
+  pgdata:
+  avatars:

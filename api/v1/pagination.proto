@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/amlcx/tablero/backend/gen/api/v1;apiv1";
+
+message PaginationParameters {
+  uint32 offset = 1;
+  uint32 page_size = 2;
+  string sort_by = 3;
+  string sort_direction = 4 [(buf.validate.field).string.in = "ASC", (buf.validate.field).string.in = "DESC"];
+}

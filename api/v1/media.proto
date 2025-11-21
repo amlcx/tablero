@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/amlcx/tablero/backend/gen/api/v1;apiv1";
+
+message Media {
+  string id = 1;
+  string checksum = 2;
+  string mime = 3;
+  string type = 4;
+  string extension = 5;
+  int64 size = 6;
+  string url = 7;
+  string square_thumbnail_url = 8;
+  string regular_thumbnail_url = 9;
+  google.protobuf.Timestamp created_at = 10;
+}
