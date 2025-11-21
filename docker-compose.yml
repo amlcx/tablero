@@ -3,16 +3,16 @@ services:
     image: postgres:18
     container_name: testdb
     environment:
-      - POSTGRES_USER=test
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgres/18/docker
     restart: unless-stopped
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "test", "db"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_PORT}", "${POSTGRES_DB}"]
       timeout: 5s
       retries: 5
   
@@ -25,11 +25,11 @@ services:
     environment:
       - TABLERO_SERVER_HOSTNAME=${TABLERO_SERVER_HOSTNAME}
       - TABLERO_SERVER_PORT=${TABLERO_SERVER_PORT}
-      - TABLERO_JWKS_URL=${frontend:3001/api/auth/jwks}
+      - TABLERO_JWKS_URL=frontend:3001/api/auth/jwks
     networks:
       - tablero_network
     ports:
-      - "1323:1323"
+      - "${TABLERO_SERVER_PORT}:${TABLERO_SERVER_PORT}"
     
   frontend:
     build:
