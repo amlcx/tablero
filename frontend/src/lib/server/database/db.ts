@@ -9,17 +9,23 @@ import { SQL } from 'bun'
 import { Kysely } from 'kysely'
 import { PostgresJSDialect } from 'kysely-postgres-js'
 
+const url = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable`
+
 const pgDb = new SQL({
-	hostname: POSTGRES_HOSTNAME,
-	port: POSTGRES_PORT,
-	database: POSTGRES_DB,
-	username: POSTGRES_USER,
-	password: POSTGRES_PASSWORD,
+	url: url,
 
 	max: 30,
 	idleTimeout: 30,
 	maxLifetime: 0,
-	connectionTimeout: 10
+	connectionTimeout: 10,
+
+	onconnect: (client) => {
+		console.log('connected to database')
+	},
+
+	onclose: (client) => {
+		console.log(`Connection to database closed (connection string: ${url})`)
+	}
 })
 
 export const db = new Kysely({
