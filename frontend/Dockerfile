@@ -18,6 +18,7 @@ ENV POSTGRES_DB=${POSTGRES_DB}}
 ENV POSTGRES_USER=${POSTGRES_USER}}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}}
 
+RUN apt-get update && apt-get install -y python3 build-essential
 RUN bun install --frozen-lockfile
 COPY . .
 RUN bunx --bun @better-auth/cli migrate
