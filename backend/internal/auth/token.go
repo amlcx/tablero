@@ -41,6 +41,7 @@ func NewJWTMiddleware(
 }
 
 func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error) {
+	m.logger.Debug("jwt middleware intercepted request")
 	keySet, err := m.keySvc.GetKeySet(ctx)
 	if err != nil {
 		return nil, connect.NewError(
@@ -51,6 +52,8 @@ func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error)
 			),
 		)
 	}
+
+	m.logger.Debug("jwt middleware retrieved key set", "keySet", keySet)
 
 	token, err := jwt.ParseRequest(r, jwt.WithKeySet(keySet))
 	if err != nil {
