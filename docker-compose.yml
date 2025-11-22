@@ -46,7 +46,7 @@ services:
     depends_on:
       - backend
     environment:
-      - FRONTEND_PORT=${FRONTEND_PORT}
+      - PORT=${PORT}
       - DATABASE_URL=${DATABASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
@@ -56,7 +56,7 @@ services:
     networks:
       - tablero_network
     ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+      - "${PORT}:${PORT}"
     volumes:
       - avatars:/app/uploads
 
