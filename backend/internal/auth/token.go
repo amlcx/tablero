@@ -44,6 +44,7 @@ func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error)
 	m.logger.Debug("jwt middleware intercepted request")
 	keySet, err := m.keySvc.GetKeySet(ctx)
 	if err != nil {
+		m.logger.Error("failed to get key set", "err", err)
 		return nil, connect.NewError(
 			connect.CodeInternal,
 			errors.Internal(
