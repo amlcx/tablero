@@ -14,8 +14,6 @@ import (
 	"github.com/amlcx/tablero/backend/sentinel"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 )
 
 type App struct {
@@ -67,13 +65,16 @@ func (app *App) initServer() {
 
 	h := mid.Wrap(app.router)
 
-	http2Handler := h2c.NewHandler(h, &http2.Server{})
+	p := new(http.Protocols)
+	p.SetHTTP1(true)
+	p.SetUnencryptedHTTP2(true)
 
 	addr := fmt.Sprintf("%s:%d", app.cfg.Server.Hostname, app.cfg.Server.Port)
 
 	app.server = &http.Server{
-		Addr:    addr,
-		Handler: http2Handler,
+		Addr:      addr,
+		Handler:   h,
+		Protocols: p,
 	}
 }
 
