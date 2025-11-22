@@ -12,6 +12,8 @@ export const load: PageServerLoad = async ({ request }) => {
 		const resp = await fetch(`${BACKEND_URL}/ping`, { headers })
 		const msg = await resp.json()
 
+		console.log('MSG', msg)
+
 		return {
 			msg
 		}
