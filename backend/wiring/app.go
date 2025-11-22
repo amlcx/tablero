@@ -75,6 +75,8 @@ func (app *App) mountRoutes() {
 }
 
 func (app *App) initServer() {
+	app.deps.Logger.Debug("initializing server")
+	app.deps.Logger.Debug("creating new jwt middleware", "jwks url", app.cfg.JWKS.URL)
 	jwtMiddleware := auth.NewJWTMiddleware(app.deps.Logger, app.cfg.JWKS.URL)
 	mid := authn.NewMiddleware(jwtMiddleware.Guard)
 
