@@ -5,7 +5,7 @@ import { createConnectTransport } from '@connectrpc/connect-node'
 
 const transport = createConnectTransport({
 	baseUrl: BACKEND_URL,
-	httpVersion: '2'
+	httpVersion: '1.1'
 })
 
 export function createApiClients() {
