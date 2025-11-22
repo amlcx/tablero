@@ -2,6 +2,7 @@ package wiring
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -57,6 +58,20 @@ func (app *App) mountRoutes() {
 
 	app.router.Mount(categoryPath, categoryHandler)
 	app.router.Mount(greetPath, greetHandler)
+
+	app.router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		type Response struct {
+			Message string `json:"message"`
+		}
+
+		resp := Response{
+			Message: "pong",
+		}
+
+		result, _ := json.Marshal(resp)
+
+		fmt.Fprint(w, result)
+	})
 }
 
 func (app *App) initServer() {
