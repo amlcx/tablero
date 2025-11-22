@@ -46,8 +46,13 @@ services:
     depends_on:
       - backend
     environment:
-      - ORIGIN=${ORIGIN}
       - FRONTEND_PORT=${FRONTEND_PORT}
+      - DATABASE_URL=${DATABASE_URL}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - ORIGIN=${ORIGIN}
+      - UPLOAD_DIR=${UPLOAD_DIR}
+      - BACKEND_URL=http://backend:${TABLERO_SERVER_PORT}
     networks:
       - tablero_network
     ports:
