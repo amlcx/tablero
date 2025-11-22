@@ -16,6 +16,7 @@ export const load: PageServerLoad = async () => {
 export const actions = {
 	signUp: async ({ request }) => {
 		try {
+			console.debug('server action triggered')
 			const form = await superValidate(request, valibot(signUpSchema))
 
 			if (!form.valid) {
@@ -38,6 +39,8 @@ export const actions = {
 				image = await saveAvatarToDisk(data.avatar, data.username)
 			}
 
+			console.log('server action has generated avatar')
+
 			const signUpResponse = await auth.api.signUpEmail({
 				body: {
 					email: data.email,
@@ -47,6 +50,8 @@ export const actions = {
 					image: image
 				}
 			})
+
+			console.log('server action completed')
 
 			return message(form, {
 				type: 'success',

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package api.v1;
+
+option go_package = "github.com/amlcx/tablero/backend/gen/api/v1;apiv1";
+
+message GreetMsg {
+    string id = 1;
+    string name = 2;
+}
+
+message GreetRequest {
+    GreetMsg greet = 1;
+}
+
+message GreetResponse {
+    string msg = 1;
+}
+
+service GreetService {
+    rpc Greet(GreetRequest) returns (GreetResponse);
+}

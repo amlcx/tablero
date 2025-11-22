@@ -1,8 +1,9 @@
+import { UPLOAD_DIR } from '$env/static/private'
 import { mkdir } from 'node:fs/promises'
 import path from 'path'
 import sharp from 'sharp'
 
-const baseDir = path.resolve('static/avatars')
+const baseDir = UPLOAD_DIR
 
 export const saveAvatarToDisk = async (avatar: File, username: string) => {
 	await mkdir(baseDir, { recursive: true })

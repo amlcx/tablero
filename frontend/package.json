@@ -11,7 +11,12 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint ."
+		"lint": "prettier --check . && eslint .",
+		"start": "bun run db:push --force && bun ./build/index.js",
+		"db:push": "drizzle-kit push",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -29,6 +34,8 @@
 		"@zxcvbn-ts/language-en": "^3.0.2",
 		"bits-ui": "^2.11.0",
 		"clsx": "^2.1.1",
+		"drizzle-kit": "^0.31.5",
+		"drizzle-orm": "^0.44.6",
 		"eslint": "^9.38.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
@@ -40,6 +47,7 @@
 		"prettier-plugin-tailwindcss": "^0.7.1",
 		"runed": "^0.31.1",
 		"svelte": "^5.41.0",
+		"svelte-adapter-bun": "^1.0.1",
 		"svelte-check": "^4.3.3",
 		"svelte-easy-crop": "^5.0.0",
 		"svelte-sonner": "^1.0.5",
@@ -64,6 +72,7 @@
 		"kysely": "^0.28.8",
 		"kysely-postgres-js": "^3.0.0",
 		"phosphor-svelte": "^3.0.1",
+		"postgres": "^3.4.7",
 		"sharp": "^0.34.5",
 		"valibot": "^1.1.0"
 	}

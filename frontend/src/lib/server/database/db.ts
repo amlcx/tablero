@@ -1,18 +1,9 @@
-import {
-	POSTGRES_DB,
-	POSTGRES_HOSTNAME,
-	POSTGRES_PASSWORD,
-	POSTGRES_PORT,
-	POSTGRES_USER
-} from '$env/static/private'
 import { SQL } from 'bun'
 import { Kysely } from 'kysely'
 import { PostgresJSDialect } from 'kysely-postgres-js'
 
-const url = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOSTNAME}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable`
-
 const pgDb = new SQL({
-	url: url,
+	url: '',
 
 	max: 30,
 	idleTimeout: 30,
@@ -24,7 +15,7 @@ const pgDb = new SQL({
 	},
 
 	onclose: (client) => {
-		console.log(`Connection to database closed (connection string: ${url})`)
+		console.log(`Connection to database closed`)
 	}
 })
 

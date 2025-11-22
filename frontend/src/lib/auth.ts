@@ -1,11 +1,15 @@
 import { betterAuth } from 'better-auth'
-import { db } from './server/database/db'
 import { admin, jwt, username } from 'better-auth/plugins'
 import { sveltekitCookies } from 'better-auth/svelte-kit'
 import { getRequestEvent } from '$app/server'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { db } from './server/db'
 
 export const auth = betterAuth({
-	database: { db: db, type: 'postgres' },
+	database: drizzleAdapter(db, {
+		provider: 'pg',
+		usePlural: true
+	}),
 
 	emailAndPassword: { enabled: true, minPasswordLength: 8 },
 

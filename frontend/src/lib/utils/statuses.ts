@@ -1,8 +1,8 @@
-// import type { Code, ConnectError } from '@connectrpc/connect';
+import type { Code, ConnectError } from '@connectrpc/connect'
 
 type HttpErrorCode = 400 | 401 | 403 | 404 | 409 | 422 | 429 | 499 | 500 | 501 | 502 | 503 | 504
 
-/*export function normalizeConnectErrorCode(c: Code): HttpErrorCode {
+export function normalizeConnectErrorCode(c: Code): HttpErrorCode {
 	const statusMap: Record<Code, HttpErrorCode> = {
 		1: 499, // Canceled
 		2: 500, // Unknown
@@ -20,14 +20,14 @@ type HttpErrorCode = 400 | 401 | 403 | 404 | 409 | 422 | 429 | 499 | 500 | 501 |
 		14: 503, // Unavailable
 		15: 500, // Data loss
 		16: 401 // Unauthenticated
-	};
-
-	if (c in statusMap) {
-		return statusMap[c];
 	}
 
-	return 500;
-}*/
+	if (c in statusMap) {
+		return statusMap[c]
+	}
+
+	return 500
+}
 
 export function normalizeErrorStatus(status: number): HttpErrorCode {
 	const statusMap: Record<number, HttpErrorCode> = {

@@ -52,10 +52,13 @@ func (app *App) initRouter() {
 func (app *App) mountRoutes() {
 	bh := rpc.NewBaseHandler(app.deps.Logger)
 	ch := rpc.NewCategoryHandler(bh)
+	gh := rpc.NewGreetHandler(bh)
 
 	categoryPath, categoryHandler := apiv1connect.NewCategoryServiceHandler(ch)
+	greetPath, greetHandler := apiv1connect.NewGreetServiceHandler(gh)
 
 	app.router.Mount(categoryPath, categoryHandler)
+	app.router.Mount(greetPath, greetHandler)
 }
 
 func (app *App) initServer() {
@@ -75,8 +78,9 @@ func (app *App) initServer() {
 }
 
 func (app *App) Start() error {
-	app.deps.Logger.Debug("starting application")
+	app.deps.Logger.Info("starting application")
 
+	app.deps.Logger.Info("listening for incoming requests", "addr", app.server.Addr)
 	if err := app.server.ListenAndServe(); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
 			app.deps.Logger.Fatal("fatal error during app execution", "err", err)
