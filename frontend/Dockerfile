@@ -28,6 +28,5 @@ COPY package.json .
 COPY drizzle.config.ts .
 COPY migrations migrations/
 ENV NODE_ENV=production
-ENV ORIGIN=${ORIGIN}
 VOLUME [ "/app/uploads" ]
 CMD ["bun", "start"]

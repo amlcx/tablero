@@ -53,7 +53,7 @@ func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error)
 		)
 	}
 
-	m.logger.Debug("jwt middleware retrieved key set", "keySet", keySet.Keys())
+	m.logger.Info("key set retrieved", "len", keySet.Len())
 
 	token, err := jwt.ParseRequest(r, jwt.WithKeySet(keySet))
 	if err != nil {
