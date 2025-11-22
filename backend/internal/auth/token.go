@@ -55,6 +55,14 @@ func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error)
 
 	m.logger.Info("key set retrieved", "len", keySet.Len())
 
+	k, exists := keySet.Key(0)
+
+	if !exists {
+		m.logger.Info("NO key in index 0")
+	} else {
+		m.logger.Info("KEY [0]", "data", k)
+	}
+
 	token, err := jwt.ParseRequest(r, jwt.WithKeySet(keySet))
 	if err != nil {
 		m.logger.Error("jwt middleware error during jwt parsing", "err", err)
