@@ -5,6 +5,7 @@ import type { PageServerLoad } from './$types'
 export const load: PageServerLoad = async ({ request }) => {
 	try {
 		const { token } = await auth.api.getToken({ headers: request.headers })
+		console.log(token)
 
 		const headers = new Headers()
 		headers.set('Authorization', `Bearer: ${token}`)
