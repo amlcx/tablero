@@ -16,5 +16,5 @@ export const saveAvatarToDisk = async (avatar: File, username: string) => {
 
 	await sharp(buf).resize(300, 300, { fit: 'cover' }).webp({ quality: 85 }).toFile(filepath)
 
-	return `/avatars/${filename}`
+	return `/app/avatars/${filename}`
 }

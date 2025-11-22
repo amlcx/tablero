@@ -5,10 +5,11 @@ import { createConnectTransport } from '@connectrpc/connect-node'
 
 const transport = createConnectTransport({
 	baseUrl: BACKEND_URL,
-	httpVersion: '1.1'
+	httpVersion: '2'
 })
 
 export function createApiClients() {
+	console.debug(`Creating client with transport: HTTP 2 and baseUrl: ${BACKEND_URL}`)
 	return {
 		greetApi: createClient(GreetService, transport)
 	}
