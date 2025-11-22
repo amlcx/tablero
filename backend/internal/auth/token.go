@@ -32,7 +32,7 @@ func NewJWTMiddleware(
 ) JWTMiddleware {
 	sentinel.Assert(logger != nil, "failed to initialize jwt middleware: nil logger")
 
-	keySvc := keys.NewKeyServicer(jwksURL)
+	keySvc := keys.NewKeyServicer(jwksURL, logger)
 
 	return &jwtMiddleware{
 		keySvc: keySvc,
