@@ -26,7 +26,7 @@ services:
     environment:
       - TABLERO_SERVER_HOSTNAME=${TABLERO_SERVER_HOSTNAME}
       - TABLERO_SERVER_PORT=${TABLERO_SERVER_PORT}
-      - TABLERO_JWKS_URL=http://frontend:${FRONTEND_PORT}/api/auth/jwks
+      - TABLERO_JWKS_URL=http://frontend:${PORT}/api/auth/jwks
     networks:
       - tablero_network
     ports:
