@@ -3,15 +3,19 @@ import { auth } from '$lib/auth'
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async ({ request }) => {
-	const { token } = await auth.api.getToken({ headers: request.headers })
+	try {
+		const { token } = await auth.api.getToken({ headers: request.headers })
 
-	const headers = new Headers()
-	headers.set('Authorization', `Bearer: ${token}`)
+		const headers = new Headers()
+		headers.set('Authorization', `Bearer: ${token}`)
 
-	const resp = await fetch(`${BACKEND_URL}/ping`, { headers })
-	const msg = await resp.json()
+		const resp = await fetch(`${BACKEND_URL}/ping`, { headers })
+		const msg = await resp.json()
 
-	return {
-		msg
+		return {
+			msg
+		}
+	} catch (e) {
+		console.error(e)
 	}
 }
