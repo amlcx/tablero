@@ -37,6 +37,7 @@ func NewKeyServicer(url string, logger *log.Logger) KeyServicer {
 func (s *keyServicer) init(ctx context.Context) {
 	s.once.Do(func() {
 		var err error
+		time.Sleep(5 * time.Second)
 		s.cache, err = jwk.NewCache(ctx, httprc.NewClient())
 		sentinel.AssertError(err, "failed to initialize keys servicer: failed to create cache")
 
