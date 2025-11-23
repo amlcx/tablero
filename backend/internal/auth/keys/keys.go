@@ -50,10 +50,15 @@ func (s *keyServicer) GetKeySet(ctx context.Context) (jwk.Set, error) {
 	s.init(ctx)
 
 	timeout, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer func() {
-		s.logger.Debug("key servicer timeout")
-		cancel()
-	}()
 
-	return s.cache.Lookup(timeout, s.url)
+	defer cancel()
+
+	a, err := s.cache.Lookup(timeout, s.url)
+
+	if err != nil {
+		s.logger.Error("JWKS Lookup function failed", "err", err)
+		return nil, err
+	}
+
+	return a, nil
 }
