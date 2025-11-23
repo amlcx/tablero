@@ -42,9 +42,11 @@ func NewJWTMiddleware(
 
 func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error) {
 	m.logger.Debug("jwt middleware intercepted request")
+
+	m.logger.Debug("request headers", "headers", r.Header.Values("Authorization"))
+
 	keySet, err := m.keySvc.GetKeySet(ctx)
 	if err != nil {
-		m.logger.Error("failed to get key set", "err", err)
 		return nil, connect.NewError(
 			connect.CodeInternal,
 			errors.Internal(
@@ -52,16 +54,6 @@ func (m *jwtMiddleware) Guard(ctx context.Context, r *http.Request) (any, error)
 				err,
 			),
 		)
-	}
-
-	m.logger.Info("key set retrieved", "len", keySet.Len())
-
-	k, exists := keySet.Key(0)
-
-	if !exists {
-		m.logger.Info("NO key in index 0")
-	} else {
-		m.logger.Info("KEY [0]", "data", k)
 	}
 
 	token, err := jwt.ParseRequest(r, jwt.WithKeySet(keySet))
