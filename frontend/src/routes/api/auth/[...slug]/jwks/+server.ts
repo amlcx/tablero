@@ -8,4 +8,7 @@ interface WithRequest {
 	request: Request
 }
 
-export const fallback = (request: WithRequest) => handler(request)
+export const fallback = (request: WithRequest) => {
+	console.log(`[JWKS endpoint]`)
+	return handler(request)
+}
